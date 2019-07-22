@@ -289,7 +289,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h1><p>​        对于我来说ret2libc还是比较难懂的一块东西，借着师兄的学习资料，总算对ret2libc有了一点深刻的了解。</p>
+        <p>​        对于我来说ret2libc还是比较难懂的一块东西，借着师兄的学习资料，总算对ret2libc有了一点深刻的了解。</p>
 <hr>
 <h3 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h3><p>​        ret2libc这一类的题目一般会给你一个题目文件和一个libc库文件。如libc.so。libc.so里存放的是程序编译的所有函数，而解题的主要思想就是借助libc.so里各个函数之间的相对地址和程序的是相同的这一特性。libc库中的函数和主函数中的函数，其地址的差值就是所谓的offset。如果知道了这个offset和任意libc中的函数A地址，你就知道了A在主函数中的地址。</p>
 <hr>
