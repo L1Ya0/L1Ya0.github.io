@@ -311,9 +311,11 @@
 <p>plt表中存放的got表的地址，got表中存放的是函数的真实地址</p>
 </blockquote>
 <p>​        首先我们得到write的plt表值，read的got表值（got表存放的是read函数的真实地址），以及read函数所在的vulnerable_function的地址。然后我们就开始可以构造第一个payload来泄露read啊函数的真实地址了，前面的是0x88的泄露点和32位的部分，最后三个则是write函数所需的参数，vulenr函数是返回地址，即调用vunler函数和write函数来输出read函数的真实地址。知道了read的真实地址之后我们就可以构造offset了，使用readelf命令读取libc.so文件中的地址。</p>
-<p>​        offset=readadr-libcread（read函数的真实地址-read函数的libc地址）</p>
+<p>​        libc_base=readadr-libc_read_offset（read函数的真实地址-read函数的libc地址）</p>
+<p>​        libc_function_function_offset通常可以使用readelf来得到</p>
 <blockquote>
-<p>offset = real_function_addr - libc_function_addr</p>
+<p>libc_base = real_function_addr - libc_function_offset</p>
+<p>real_function_addr=libc_base+libc_function_offset</p>
 </blockquote>
 <p>最后根据offset和各函数的地址就可以做出来了，”bin/sh”的地址可以用strings的命令得到。</p>
 
