@@ -15,19 +15,19 @@
 
 
 
-<meta name="description" content="​        对于我来说ret2libc还是比较难懂的一块东西，借着师兄的学习资料，总算对ret2libc有了一点深刻的了解。  主要思想​        ret2libc这一类的题目一般会给你一个题目文件和一个libc库文件。如libc.so。libc.so里存放的是程序编译的所有函数，而解题的主要思想就是借助libc.so里各个函数之间的相对地址和程序的是相同的这一特性。libc库中的函数">
+<meta name="description" content="题目是JarvisOJ中的level3，关于libc基地址和offset的问题">
 <meta name="keywords" content="PWN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最简单的ret2libc">
 <meta property="og:url" content="http://yoursite.com/2019/07/21/最简单的ret2libc/index.html">
 <meta property="og:site_name" content="L1Ya0">
-<meta property="og:description" content="​        对于我来说ret2libc还是比较难懂的一块东西，借着师兄的学习资料，总算对ret2libc有了一点深刻的了解。  主要思想​        ret2libc这一类的题目一般会给你一个题目文件和一个libc库文件。如libc.so。libc.so里存放的是程序编译的所有函数，而解题的主要思想就是借助libc.so里各个函数之间的相对地址和程序的是相同的这一特性。libc库中的函数">
+<meta property="og:description" content="题目是JarvisOJ中的level3，关于libc基地址和offset的问题">
 <meta property="og:locale" content="zh_Hans">
 <meta property="og:image" content="c:%5CUsers%5C13953%5CDesktop%5C%E6%8D%95%E8%8E%B7.PNG">
-<meta property="og:updated_time" content="2019-07-24T08:48:45.101Z">
+<meta property="og:updated_time" content="2019-07-24T12:12:06.568Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最简单的ret2libc">
-<meta name="twitter:description" content="​        对于我来说ret2libc还是比较难懂的一块东西，借着师兄的学习资料，总算对ret2libc有了一点深刻的了解。  主要思想​        ret2libc这一类的题目一般会给你一个题目文件和一个libc库文件。如libc.so。libc.so里存放的是程序编译的所有函数，而解题的主要思想就是借助libc.so里各个函数之间的相对地址和程序的是相同的这一特性。libc库中的函数">
+<meta name="twitter:description" content="题目是JarvisOJ中的level3，关于libc基地址和offset的问题">
 <meta name="twitter:image" content="c:%5CUsers%5C13953%5CDesktop%5C%E6%8D%95%E8%8E%B7.PNG">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -310,7 +310,7 @@
           
         <p>​        对于我来说ret2libc还是比较难懂的一块东西，借着师兄的学习资料，总算对ret2libc有了一点深刻的了解。</p>
 <hr>
-<h3 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h3><p>​        ret2libc这一类的题目一般会给你一个题目文件和一个libc库文件。如libc.so。libc.so里存放的是程序编译的所有函数，而解题的主要思想就是借助libc.so里各个函数之间的相对地址和程序的是相同的这一特性。libc库中的函数和主函数中的函数，其地址的差值就是所谓的offset。如果知道了这个offset和任意libc中的函数A地址，你就知道了A在主函数中的地址。</p>
+<h3 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h3><p>​        ret2libc这一类的题目一般会给你一个题目文件和一个libc库文件。如libc.so。libc.so里存放的是程序编译的所有函数，而解题的主要思想就是借助libc.so里各个函数之间的相对地址和程序的是相同的这一特性。libc库中的函数和主函数中的函数，其地址的差值就是所谓的offset，其实是libc的基地址。如果知道了这个libc基地址和任意libc中的函数A地址（偏移），你就知道了A在主函数中的真实地址。其地址是libc基地址+A函数在libc的偏移。</p>
 <hr>
 <h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">readelf -a ./libc.so | grep <span class="string">"function@"</span>     <span class="comment">#在libc.so里查找function函数地址</span></span><br><span class="line">strings -a -t x ./libc.so | grep <span class="string">"/bin/sh"</span>  <span class="comment">#在libc.so里查找字符串”/bin/sh“地址</span></span><br></pre></td></tr></table></figure>
 
@@ -348,7 +348,7 @@
         <p><span>本文标题:</span><a href="/2019/07/21/最简单的ret2libc/">最简单的ret2libc</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">L1Ya0</a></p>
         <p><span>发布时间:</span>2019-07-21, 20:28:34</p>
-        <p><span>最后更新:</span>2019-07-24, 16:48:45</p>
+        <p><span>最后更新:</span>2019-07-24, 20:12:06</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/07/21/最简单的ret2libc/" title="最简单的ret2libc">http://yoursite.com/2019/07/21/最简单的ret2libc/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/07/21/最简单的ret2libc/　　作者: L1Ya0" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
